@@ -1,0 +1,26 @@
+<!-- <img [src]="ImagesConfig.upload" (click)="fileUpload.click()" alt="Upload" /> !-->
+<!-- <div class="file-selector-container">
+  
+  <p>{{ file ? file.name : "No files uploaded yet. Upload here." }}</p>
+  <input
+    type="file"
+    [accept]="fileFormats"
+    (change)="onFileSelected($event)"
+    #fileUpload
+    hidden
+  />
+  <button class="hits_button hits_button-primary" (click)="fileUpload.click()">
+    {{ buttonText || "Upload" }}
+  </button>
+
+</div> -->
+
+<input
+  type="file"
+  class="file-input"
+  [accept]="requiredFileType"
+  (change)="onFileSelected($event)"
+  #fileUpload
+/>
+
+

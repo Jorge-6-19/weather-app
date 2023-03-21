@@ -1,1 +1,12 @@
-<p>uploader-page works!</p>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-10 d-flex justify-content-center py-5">
+    <app-file-uploader
+      [requiredFileType]="['.csv']"
+      (selectedFile)="onSelectedFileChange($event)"
+    ></app-file-uploader>
+  </div>
+
+  <div class="col-12 col-md-10 d-flex justify-content-center">
+    <app-uploaded-data-table [data]="data"></app-uploaded-data-table>
+  </div>
+</div>

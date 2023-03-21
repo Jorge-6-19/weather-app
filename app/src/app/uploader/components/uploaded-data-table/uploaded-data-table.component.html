@@ -1,0 +1,34 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Pais</th>
+      <th scope="col">Ciudad</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Hora</th>
+      <th scope="col">Temperatura</th>
+      <th scope="col">Humedada</th>
+      <th scope="col">Estado clima</th>
+      <th scope="col">Viento</th>
+      <th scope="col">Calidad de aire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="data?.length; else empty">
+      <tr *ngFor="let row of data; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ row.country }}</td>
+        <td>{{ row.city }}</td>
+        <td>{{ row.city }}</td>
+        <td>{{ row.city }}</td>
+        <td>{{ row.city }}</td>
+        <td>{{ row.city }}</td>
+        <td>{{ row.city }}</td>
+        <td>{{ row.city }}</td>
+        <td>{{ row.city }}</td>
+      </tr>
+    </ng-container>
+
+    <ng-template #empty> Not results found </ng-template>
+  </tbody>
+</table>
