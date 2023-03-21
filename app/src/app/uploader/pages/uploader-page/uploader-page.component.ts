@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   City,
   Country,
+  WeatherByDate,
   WeatherData,
   WeatherDataRow,
 } from '../../interface/weather-data.interface';
+import { WeatherService } from '../../services/weather.service';
 
 @Component({
   selector: 'app-uploader-page',
@@ -14,6 +16,7 @@ import {
 export class UploaderPageComponent {
   countries: Country[] = [];
   data: WeatherDataRow[] = [];
+  constructor(private weatherService: WeatherService) {}
 
   onSelectedFileChange(file: File) {
     if (file) {
@@ -30,15 +33,16 @@ export class UploaderPageComponent {
         for (let row of rows) {
           const cols: string[] = row.split(';');
           const rowData: WeatherDataRow = {
-            country: cols[0]?.replace('\r', ''),
-            city: cols[1]?.replace('\r', ''),
-            date: cols[2]?.replace('\r', ''),
-            hour: cols[3]?.replace('\r', ''),
-            temperature: cols[4]?.replace('\r', ''),
-            humidity: cols[5]?.replace('\r', ''),
-            weatherStatus: cols[6]?.replace('\r', ''),
-            wind: cols[7]?.replace('\r', ''),
-            airQuality: cols[8]?.replace('\r', ''),
+            id: cols[0]?.replace('\r', ''),
+            country: cols[1]?.replace('\r', ''),
+            city: cols[2]?.replace('\r', ''),
+            date: cols[3]?.replace('\r', ''),
+            hour: cols[4]?.replace('\r', ''),
+            temperature: cols[5]?.replace('\r', ''),
+            humidity: cols[6]?.replace('\r', ''),
+            weatherStatus: cols[7]?.replace('\r', ''),
+            wind: cols[8]?.replace('\r', ''),
+            airQuality: cols[9]?.replace('\r', ''),
           };
           this.data.push(rowData);
         }
@@ -55,6 +59,7 @@ export class UploaderPageComponent {
         this.countries = [];
         for (const group of groups) {
           const country: Country = {
+            id: group[1][0].id,
             name: group[0],
             cities: this.buildCities(group[1]),
           };
@@ -62,7 +67,8 @@ export class UploaderPageComponent {
             this.countries.push(country);
           }
         }
-        console.log(this.countries);
+        this.weatherService.setWeatherData(this.data);
+        this.weatherService.setCountries(this.countries);
       };
     }
   }
@@ -74,12 +80,27 @@ export class UploaderPageComponent {
       for (const cityIterator of citiesGroup) {
         const city: City = {
           name: cityIterator[0],
-          weatherData: this.buildWheatherData(cityIterator[1]),
+          weatherByDate: this.buildWheatherByDate(cityIterator[1]),
         };
         cities.push(city);
       }
     }
     return cities;
+  }
+
+  buildWheatherByDate(rows: WeatherDataRow[]): WeatherByDate[] {
+    const weatherByDates: WeatherByDate[] = [];
+    if (rows) {
+      const dataByDate = this.groupBy(rows, (row: WeatherDataRow) => row.date);
+      for (const date of dataByDate) {
+        const weatherByDate: WeatherByDate = {
+          date: date[0],
+          weatherData: this.buildWheatherData(date[1]),
+        };
+        weatherByDates.push(weatherByDate);
+      }
+    }
+    return weatherByDates;
   }
 
   buildWheatherData(rows: WeatherDataRow[]): WeatherData[] {

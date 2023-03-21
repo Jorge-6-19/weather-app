@@ -1,1 +1,40 @@
-<p>dashboard-page works!</p>
+<div class="container">
+  <h3 class="mt-2">Dashboard</h3>
+  <form [formGroup]="form">
+    <div class="row justify-content-end mb-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+        <select class="form-select" formControlName="countryId">
+          <option value="">Country</option>
+          <ng-container *ngIf="countries?.length">
+            <option [value]="country.id" *ngFor="let country of countries">
+              {{ country.name }}
+            </option>
+          </ng-container>
+        </select>
+      </div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+        <select class="form-select" formControlName="cityName">
+          <option value="">City</option>
+          <ng-container *ngIf="cities?.length">
+            <option [value]="city.name" *ngFor="let city of cities">
+              {{ city.name }}
+            </option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+
+    <div class="row days-container justify-content-center">
+      <ng-container *ngIf="weatherByDate?.length">
+        <ng-container *ngFor="let weatherByDate of weatherByDate">
+          <div class="col-12 col-sm-5 col-md-3 mb-2">
+            <app-day-weather-resume
+              [date]="weatherByDate?.date"
+              [weather]="weatherByDate?.weatherData[0]"
+            ></app-day-weather-resume>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </form>
+</div>
