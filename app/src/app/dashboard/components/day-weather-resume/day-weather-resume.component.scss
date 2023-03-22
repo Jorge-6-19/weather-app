@@ -1,6 +1,15 @@
 .resume-container {
   text-align: center;
-  border: 1px solid gray;
+  border: 1px solid rgb(136, 178, 233);
   border-radius: 6px;
   padding: 12px;
+  cursor: pointer;
+}
+
+.resume-container:hover {
+  border: 2px solid rgb(44, 123, 226);
+}
+
+.selected {
+  border: 2px solid rgb(13, 94, 199);
 }

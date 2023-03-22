@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Country, WeatherData, WeatherDataRow } from '../../interface/weather-data.interface';
+import {
+  WeatherDataRow
+} from '../../interface/weather-data.interface';
 
 @Component({
   selector: 'app-uploaded-data-table',

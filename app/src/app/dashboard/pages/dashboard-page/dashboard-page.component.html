@@ -1,7 +1,7 @@
 <div class="container">
   <h3 class="mt-2">Dashboard</h3>
   <form [formGroup]="form">
-    <div class="row justify-content-end mb-4">
+    <div class="row justify-content-center mb-2">
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
         <select class="form-select" formControlName="countryId">
           <option value="">Country</option>
@@ -24,17 +24,31 @@
       </div>
     </div>
 
-    <div class="row days-container justify-content-center">
-      <ng-container *ngIf="weatherByDate?.length">
-        <ng-container *ngFor="let weatherByDate of weatherByDate">
-          <div class="col-12 col-sm-5 col-md-3 mb-2">
+    <div class="row days-container justify-content-center mb-2">
+      <ng-container *ngIf="weatherByDates?.length">
+        <ng-container *ngFor="let weatherByDate of weatherByDates">
+          <div
+            class="col-12 col-sm-5 col-md-3 mb-2"
+            (click)="onWeatherByDateClick(weatherByDate)"
+          >
             <app-day-weather-resume
-              [date]="weatherByDate?.date"
-              [weather]="weatherByDate?.weatherData[0]"
+              [weatherByDate]="weatherByDate"
+              [selected]="weatherByDate?.date === selectedWeatherByDate?.date"
             ></app-day-weather-resume>
           </div>
         </ng-container>
       </ng-container>
+    </div>
+
+    <div
+      *ngIf="selectedWeatherByDate?.weatherData?.length"
+      class="row justify-content-center"
+    >
+      <div class="col-12 col-md-10 d-flex justify-content-center">
+        <app-weather-data-by-date-table
+          [data]="selectedWeatherByDate.weatherData"
+        ></app-weather-data-by-date-table>
+      </div>
     </div>
   </form>
 </div>

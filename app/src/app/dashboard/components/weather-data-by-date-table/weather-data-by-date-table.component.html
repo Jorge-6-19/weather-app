@@ -1,10 +1,6 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Pais</th>
-      <th scope="col">Ciudad</th>
-      <th scope="col">Fecha</th>
       <th scope="col">Hora</th>
       <th scope="col">Temperatura</th>
       <th scope="col">Humedada</th>
@@ -16,15 +12,11 @@
   <tbody>
     <ng-container *ngIf="data?.length; else empty">
       <tr *ngFor="let row of data; let i = index">
-        <td class="text-center">{{ i + 1 }}</td>
-        <td class="text-center">{{ row.country }}</td>
-        <td class="text-center">{{ row.city }}</td>
-        <td class="text-center">{{ row.date }}</td>
         <td class="text-center">{{ row.hour }}</td>
-        <td class="text-center">{{ row.temperature }}</td>
-        <td class="text-center">{{ row.humidity }}</td>
-        <td class="text-center">{{ row.weatherStatus }}</td>
-        <td class="text-center">{{ row.wind }}</td>
+        <td class="text-center">{{ row.temperature }} C°</td>
+        <td class="text-center">{{ row.humidity }} %</td>
+        <td class="text-center">{{ row.weatherStatus }} </td>
+        <td class="text-center">{{ row.wind }} km/h</td>
         <td class="text-center">{{ row.airQuality }}</td>
       </tr>
     </ng-container>

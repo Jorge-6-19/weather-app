@@ -1,10 +1,12 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import {
   City,
   Country,
-  WeatherByDate
+  WeatherByDate,
+  WeatherData,
 } from 'src/app/uploader/interface/weather-data.interface';
 import { WeatherService } from 'src/app/uploader/services/weather.service';
 
@@ -16,8 +18,14 @@ import { WeatherService } from 'src/app/uploader/services/weather.service';
 export class DashboardPageComponent implements OnInit, OnDestroy {
   countries: Country[] = [];
   cities: City[] = [];
-  weatherByDate: WeatherByDate[] = [];
-  selectedCity: City;
+
+  // All dates
+  weatherByDates: WeatherByDate[] = [];
+
+  //Selected date.
+  selectedWeatherByDate: WeatherByDate;
+  currentDate: string;
+  currentTime: string;
   private fb: FormBuilder = new FormBuilder();
 
   form: FormGroup = this.fb.group({
@@ -26,7 +34,11 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   });
 
   private dashboardSubscriptions = new Subscription();
-  constructor(private weatherService: WeatherService) {}
+
+  constructor(
+    private weatherService: WeatherService,
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit(): void {
     this.dashboardSubscriptions.add(
@@ -44,6 +56,11 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
         this.getCityName(value)
       )
     );
+    const currentDate = new Date();
+    this.currentDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+    this.currentTime = this.datePipe.transform(currentDate, 'HH');
+    console.log(this.currentTime);
+    
   }
 
   ngOnDestroy(): void {
@@ -53,20 +70,30 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   getCountryId(countryId: string) {
     const country = this.countries?.find((c) => c.id === countryId);
     this.cities = [];
+    this.weatherByDates = [];
+    this.selectedWeatherByDate = null;
     if (country?.cities?.length) {
       this.cities = country.cities;
     }
   }
   getCityName(cityName: string) {
     const city = this.cities?.find((c) => c.name === cityName);
-    this.weatherByDate = [];
+    this.weatherByDates = [];
+    this.selectedWeatherByDate = null;
     if (city?.weatherByDate?.length) {
-      this.weatherByDate = city.weatherByDate;
+      this.weatherByDates = city.weatherByDate;
+      const dataByDate = this.weatherByDates.find(
+        (w) => w.date === this.currentDate
+      );
+      this.selectedWeatherByDate = dataByDate;
     }
-    console.log('weatherByDate', this.weatherByDate);
   }
 
   getCountries(countries: Country[]) {
     this.countries = countries;
+  }
+
+  onWeatherByDateClick(weatherByDate: WeatherByDate) {
+    this.selectedWeatherByDate = weatherByDate;
   }
 }

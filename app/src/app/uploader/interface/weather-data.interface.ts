@@ -10,6 +10,7 @@ export interface City {
 export interface WeatherByDate {
   date: string;
   weatherData: WeatherData[];
+  selected?: boolean;
 }
 export interface WeatherData {
   date: string;
