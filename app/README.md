@@ -29,7 +29,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 #steps to install.
 a) Clone repository.
-c) Install node version v16.18.0
-b) Install angular cli 14
+b) Install node version v16.18.0
+c) Install angular cli 14
 d) access the folder app
-e) run command in terminal : ng serve
+e) run command in terminal : npm install
+f) run command in terminal : ng serve

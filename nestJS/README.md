@@ -48,6 +48,6 @@ Nest is [MIT licensed](LICENSE).
 #steps to install.
 a) Clone repository.
 b) Install node version 16.18.0
-c) npm install
-d) access the folder nestJS
+c) access the folder nestJS
+d) run command in terminal :npm install
 e) run command in terminal: npm run start:dev
