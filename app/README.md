@@ -25,3 +25,11 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+#steps to install.
+a) Clone repository.
+b) Install angular cli 14
+c) Install node version v16.18.0
+d) Run npm install
+e) Run ng servec

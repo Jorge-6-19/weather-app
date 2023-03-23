@@ -1,11 +1,6 @@
 <div class="resume-container" [ngClass]="selected ? 'selected' : ''">
   <h5>{{ weatherByDate?.date | date:'yyyy-MM-dd' }}</h5>
-  <!--   <div class="img">{{airQuality}}</div> -->
   <div class="humidity">{{ minHumidity }} - {{ maxHumidity }} %</div>
   <div class="temperature">{{ minTemperature }} - {{ maxTemperature }} C°</div>
   <div class="wind">{{ minWind }} - {{ maxWind }} Km/h</div>
 </div>
-
-<!-- <pre>
-  {{ weatherByDate | json }}
-</pre> -->

@@ -2,9 +2,10 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import {
-  City, WeatherByDate,
+  City,
+  WeatherByDate,
   WeatherData,
-  WeatherDataRow
+  WeatherDataRow,
 } from '../interface/weather-data.interface';
 import { WeatherHttpService } from './weather-http.service';
 @Injectable({

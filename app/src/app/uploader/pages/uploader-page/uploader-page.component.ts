@@ -15,6 +15,7 @@ export class UploaderPageComponent {
   data: WeatherDataRow[] = [];
   constructor(private weatherService: WeatherService) {}
 
+  // function to load the .csv files and print them 
   onSelectedFileChange(file: File) {
     if (file) {
       const reader = new FileReader();
@@ -46,7 +47,7 @@ export class UploaderPageComponent {
       };
     }
   }
-
+  // send the data to the database using the api
   upload() {
     if (this.data?.length) {
       this.weatherService.createWeatherData(this.data);
