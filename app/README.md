@@ -31,5 +31,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 a) Clone repository.
 c) Install node version v16.18.0
 b) Install angular cli 14
-d) Run npm install
-e) Run ng serve
+d) access the folder app
+e) run command in terminal : ng serve
