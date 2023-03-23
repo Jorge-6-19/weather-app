@@ -1,3 +1,6 @@
+import { AirQuality } from '../types/air-quality.enum';
+import { WeatherStatus } from '../types/wather-status.enum';
+
 export interface Country {
   id: string;
   name: string;
@@ -17,9 +20,9 @@ export interface WeatherData {
   hour: string;
   temperature: number;
   humidity: number;
-  weatherStatus: string;
+  weatherStatus: WeatherStatus;
   wind: number;
-  airQuality: string;
+  airQuality: AirQuality;
 }
 export interface WeatherDataRow {
   id: string;
@@ -29,7 +32,7 @@ export interface WeatherDataRow {
   hour: string;
   temperature: string;
   humidity: string;
-  weatherStatus: string;
+  weatherStatus: WeatherStatus;
   wind: string;
-  airQuality: string;
+  airQuality: AirQuality;
 }

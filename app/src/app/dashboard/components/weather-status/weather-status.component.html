@@ -1,0 +1,30 @@
+
+<div class="weather-icon">
+    <img
+    *ngIf="weatherStatus === WeatherStatus.SUNNY"
+    [src]="ImagesUrls.sunny"
+/>
+<img
+    *ngIf="weatherStatus === WeatherStatus.RAINY"
+    [src]="ImagesUrls.rainy"
+/>
+<img
+    *ngIf="weatherStatus === WeatherStatus.CLOUDY"
+    [src]="ImagesUrls.cloudy"
+/>
+<img
+    *ngIf="weatherStatus === WeatherStatus.WINDY"
+    [src]="ImagesUrls.windy"
+/>
+<img
+    *ngIf="weatherStatus === WeatherStatus.STORM"
+    [src]="ImagesUrls.storm"
+/>
+<img
+    *ngIf="weatherStatus === WeatherStatus.SNOWY"
+    [src]="ImagesUrls.snowy"
+/>
+</div>
+
+
+

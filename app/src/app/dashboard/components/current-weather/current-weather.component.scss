@@ -1,0 +1,46 @@
+.weather {
+  border: 1px solid gray;
+  border-radius: 4px;
+  display: flex;
+  line-height: normal;
+  .first-col {
+    padding: 16px;
+    .title {
+      color: #222222;
+      font-weight: 600;
+    }
+    .date-time {
+      color: gray;
+    }
+    .temperature {
+      display: flex;
+      align-items: center;
+      .weather-icon {
+        margin-right: 16px;
+        img {
+          height: 54px;
+          width: 54px;
+        }
+      }
+      .value {
+        font-size: 75px;
+        font-weight: 600;
+        .symbol {
+          font-size: 36px !important;
+        }
+      }
+    }
+    .weather-status {
+      font-size: 18px;
+      font-weight: 400;
+    }
+  }
+
+  .second-col {
+    padding: 16px;
+    .row-container {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

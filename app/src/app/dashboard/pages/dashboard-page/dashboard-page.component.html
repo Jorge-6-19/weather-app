@@ -1,5 +1,6 @@
 <div class="container">
   <h3 class="mt-2">Dashboard</h3>
+
   <form [formGroup]="form">
     <div class="row justify-content-center mb-2">
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
@@ -21,6 +22,16 @@
             </option>
           </ng-container>
         </select>
+      </div>
+    </div>
+
+    <div *ngIf="currentWeather" class="row justify-content-center mb-3">
+      <div class="col 12 col-sm-10 col-lg-8">
+        <app-current-weather
+          [date]="currentDate"
+          [time]="currentTime"
+          [weather]="currentWeather"
+        ></app-current-weather>
       </div>
     </div>
 

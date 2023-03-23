@@ -7,6 +7,7 @@ import {
   Country,
   WeatherByDate,
   WeatherData,
+  WeatherDataRow
 } from 'src/app/uploader/interface/weather-data.interface';
 import { WeatherService } from 'src/app/uploader/services/weather.service';
 
@@ -16,6 +17,8 @@ import { WeatherService } from 'src/app/uploader/services/weather.service';
   styleUrls: ['./dashboard-page.component.scss'],
 })
 export class DashboardPageComponent implements OnInit, OnDestroy {
+  //Data que viene de back.
+  weatherData: WeatherDataRow[];
   countries: Country[] = [];
   cities: City[] = [];
 
@@ -26,6 +29,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   selectedWeatherByDate: WeatherByDate;
   currentDate: string;
   currentTime: string;
+  currentWeather: WeatherData;
   private fb: FormBuilder = new FormBuilder();
 
   form: FormGroup = this.fb.group({
@@ -41,11 +45,15 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+
     this.dashboardSubscriptions.add(
-      this.weatherService.getCountries().subscribe((res) => {
-        this.getCountries(res);
-      })
+      this.weatherService
+        .getWeatherData$()
+        .subscribe((weatherData) => this.receiveData(weatherData))
     );
+
+    this.weatherService.getWeatherData();
+    
     this.dashboardSubscriptions.add(
       this.form.controls['countryId'].valueChanges.subscribe((value) =>
         this.getCountryId(value)
@@ -56,15 +64,35 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
         this.getCityName(value)
       )
     );
+
     const currentDate = new Date();
     this.currentDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
     this.currentTime = this.datePipe.transform(currentDate, 'HH');
-    console.log(this.currentTime);
-    
   }
 
   ngOnDestroy(): void {
     this.dashboardSubscriptions.unsubscribe();
+  }
+
+  receiveData(weatherData: WeatherDataRow[]) {
+    this.countries = [];
+    if (weatherData?.length) {
+      const groups = this.weatherService.groupBy(
+        weatherData,
+        (row: WeatherDataRow) => row.country
+      );
+      
+      for (const group of groups) {
+        const country: Country = {
+          id: group[1][0].id,
+          name: group[0],
+          cities: this.weatherService.buildCities(group[1]),
+        };
+        if (country?.name && country?.cities) {
+          this.countries.push(country);
+        }
+      }
+    }
   }
 
   getCountryId(countryId: string) {
@@ -72,25 +100,30 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     this.cities = [];
     this.weatherByDates = [];
     this.selectedWeatherByDate = null;
+    this.currentWeather = null;
     if (country?.cities?.length) {
       this.cities = country.cities;
     }
   }
+
   getCityName(cityName: string) {
     const city = this.cities?.find((c) => c.name === cityName);
     this.weatherByDates = [];
     this.selectedWeatherByDate = null;
+    this.currentWeather = null;
     if (city?.weatherByDate?.length) {
       this.weatherByDates = city.weatherByDate;
       const dataByDate = this.weatherByDates.find(
-        (w) => w.date === this.currentDate
+        (w) => w.date.includes(this.currentDate)
       );
       this.selectedWeatherByDate = dataByDate;
-    }
-  }
 
-  getCountries(countries: Country[]) {
-    this.countries = countries;
+      if (this.selectedWeatherByDate?.weatherData?.length) {
+        this.currentWeather = this.selectedWeatherByDate?.weatherData.find(
+          (w) => w.hour.split(':')[0].includes(this.currentTime)
+        );
+      }
+    }
   }
 
   onWeatherByDateClick(weatherByDate: WeatherByDate) {

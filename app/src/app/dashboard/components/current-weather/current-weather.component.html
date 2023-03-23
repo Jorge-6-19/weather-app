@@ -1,1 +1,35 @@
-<p>current-weather works!</p>
+<div class="weather row">
+  <div class="col-12 col-sm-6 first-col">
+    <div class="title">CURRENT WEATHER</div>
+    <div class="date-time">
+      {{ date }} <span class="fw-bold">{{ time }}:00</span>
+    </div>
+    <div class="temperature">
+        <app-weather-status [weatherStatus]="weather?.weatherStatus"></app-weather-status>
+      <div class="value">
+        {{ weather?.temperature }} <span class="symbol">°C</span>
+      </div>
+    </div>
+    <div class="weather-status">{{ weather?.weatherStatus }}</div>
+  </div>
+  <div class="col-12 col-sm-6 second-col">
+    <div class="row-container">
+      <span class="left"> Air Quality </span>
+      <span class="rigth">
+        <app-air-quality [airQuality]="weather?.airQuality"></app-air-quality>
+      </span>
+    </div>
+    <hr />
+    <div class="row-container">
+      <span class="left"> Wind </span>
+      <span class="rigth"> {{ weather?.wind }} Km/h </span>
+    </div>
+    <hr />
+
+    <div class="row-container">
+      <span class="left"> Humidity </span>
+      <span class="rigth"> {{ weather?.humidity }}% </span>
+    </div>
+  </div>
+  <!--   {{ weather | json }} -->
+</div>

@@ -21,6 +21,7 @@ export class DayWeatherResumeComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.weatherByDate?.currentValue) {
+
       this.calculateMinsAndMax();
     }
   }
@@ -28,10 +29,12 @@ export class DayWeatherResumeComponent implements OnChanges {
   calculateMinsAndMax() {
     if (this.weatherByDate?.weatherData?.length) {
       const weatherData = this.weatherByDate?.weatherData;
-
+      
+      
       this.minHumidity = Math.min(...weatherData.map((item) => item.humidity));
       this.maxHumidity = Math.max(...weatherData.map((item) => item.humidity));
-
+       
+     
       this.minTemperature = Math.min(
         ...weatherData.map((item) => item.temperature)
       );
