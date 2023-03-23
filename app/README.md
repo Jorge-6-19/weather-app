@@ -32,4 +32,4 @@ a) Clone repository.
 b) Install angular cli 14
 c) Install node version v16.18.0
 d) Run npm install
-e) Run ng servec
+e) Run ng serve
