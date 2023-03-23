@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import {
-  City,
-  Country,
-  WeatherByDate,
-  WeatherData,
-  WeatherDataRow,
+  WeatherDataRow
 } from '../../interface/weather-data.interface';
 import { WeatherService } from '../../services/weather.service';
+import { AirQuality } from '../../types/air-quality.enum';
+import { WeatherStatus } from '../../types/wather-status.enum';
 
 @Component({
   selector: 'app-uploader-page',
@@ -14,7 +12,6 @@ import { WeatherService } from '../../services/weather.service';
   styleUrls: ['./uploader-page.component.scss'],
 })
 export class UploaderPageComponent {
-  countries: Country[] = [];
   data: WeatherDataRow[] = [];
   constructor(private weatherService: WeatherService) {}
 
@@ -40,99 +37,19 @@ export class UploaderPageComponent {
             hour: cols[4]?.replace('\r', ''),
             temperature: cols[5]?.replace('\r', ''),
             humidity: cols[6]?.replace('\r', ''),
-            weatherStatus: cols[7]?.replace('\r', ''),
+            weatherStatus: cols[7]?.replace('\r', '') as WeatherStatus,
             wind: cols[8]?.replace('\r', ''),
-            airQuality: cols[9]?.replace('\r', ''),
+            airQuality: cols[9]?.replace('\r', '') as AirQuality,
           };
           this.data.push(rowData);
         }
-
-        if (!this.data?.length) {
-          return;
-        }
-
-        const groups = this.groupBy(
-          this.data,
-          (row: WeatherDataRow) => row.country
-        );
-
-        this.countries = [];
-        for (const group of groups) {
-          const country: Country = {
-            id: group[1][0].id,
-            name: group[0],
-            cities: this.buildCities(group[1]),
-          };
-          if (country?.name && country?.cities) {
-            this.countries.push(country);
-          }
-        }
-        this.weatherService.setWeatherData(this.data);
-        this.weatherService.setCountries(this.countries);
       };
     }
   }
 
-  buildCities(rows: WeatherDataRow[]) {
-    const cities: City[] = [];
-    if (rows) {
-      const citiesGroup = this.groupBy(rows, (row: WeatherDataRow) => row.city);
-      for (const cityIterator of citiesGroup) {
-        const city: City = {
-          name: cityIterator[0],
-          weatherByDate: this.buildWheatherByDate(cityIterator[1]),
-        };
-        cities.push(city);
-      }
+  upload() {
+    if (this.data?.length) {
+      this.weatherService.createWeatherData(this.data);
     }
-    return cities;
-  }
-
-  buildWheatherByDate(rows: WeatherDataRow[]): WeatherByDate[] {
-    const weatherByDates: WeatherByDate[] = [];
-    if (rows) {
-      const dataByDate = this.groupBy(rows, (row: WeatherDataRow) => row.date);
-      for (const date of dataByDate) {
-        const weatherByDate: WeatherByDate = {
-          date: date[0],
-          weatherData: this.buildWheatherData(date[1]),
-        };
-        weatherByDates.push(weatherByDate);
-      }
-    }
-    return weatherByDates;
-  }
-
-  buildWheatherData(rows: WeatherDataRow[]): WeatherData[] {
-    const weatherDatas: WeatherData[] = [];
-    if (rows) {
-      for (const row of rows) {
-        const weatherData: WeatherData = {
-          date: row.date,
-          hour: row.hour,
-          temperature: +row.temperature,
-          humidity: +row.humidity,
-          weatherStatus: row.weatherStatus,
-          wind: +row.wind,
-          airQuality: row.airQuality,
-        };
-        weatherDatas.push(weatherData);
-      }
-    }
-    return weatherDatas;
-  }
-
-  groupBy(list: any[], keyGetter: any) {
-    const map = new Map();
-    list.forEach((item) => {
-      const key = keyGetter(item);
-      const collection = map.get(key);
-      if (!collection) {
-        map.set(key, [item]);
-      } else {
-        collection.push(item);
-      }
-    });
-    return map;
   }
 }
